@@ -24,6 +24,7 @@ import java.awt.*;
 import java.sql.*;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import sistemmanajemenpenjualanhewanternak.Utils.UserSession;
 
 public class FormTransaksi extends JFrame {
 
@@ -53,7 +54,6 @@ public class FormTransaksi extends JFrame {
     // --- Komponen Header (Transaksi) ---
     private JTextField txtInvoice;
     private JComboBox<PelangganItem> cbPelanggan;
-    private JComboBox<UserItem> cbUser;
     private JComboBox<String> cbMetodeBayar;
     private JComboBox<String> cbStatusBayar;
     private JSpinner spinnerTanggal;
@@ -66,6 +66,7 @@ public class FormTransaksi extends JFrame {
     private JTable tableKeranjang;
     private DefaultTableModel tableModel;
     private JLabel lblTotalHarga;
+    private JTextField txtKasirAktif;
 
     private JButton btnSimpanTransaksi, btnBatal;
 
@@ -102,11 +103,15 @@ public class FormTransaksi extends JFrame {
         cbPelanggan = new JComboBox<>();
         headerPanel.add(cbPelanggan, gbc);
 
-        gbc.gridx = 2; gbc.gridy = 1; gbc.weightx = 0.0; headerPanel.add(new JLabel("Kasir/User:"), gbc);
+       gbc.gridx = 2; gbc.gridy = 1; gbc.weightx = 0.0; headerPanel.add(new JLabel("Kasir/User:"), gbc);
         gbc.gridx = 3; gbc.gridy = 1; gbc.weightx = 1.0;
-        cbUser = new JComboBox<>();
-        headerPanel.add(cbUser, gbc);
-
+        
+        // Membaca nama kasir dari Session
+        String namaKasir = (UserSession.getLoginName() != null) ? UserSession.getLoginName() : "Tidak Diketahui";
+        txtKasirAktif = new JTextField(namaKasir);
+        txtKasirAktif.setEditable(false); // Tidak bisa diedit manual
+        txtKasirAktif.setBackground(new Color(230, 230, 230)); // Warna abu-abu agar terlihat terkunci
+        headerPanel.add(txtKasirAktif, gbc);
         gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0.0; headerPanel.add(new JLabel("Metode:"), gbc);
         gbc.gridx = 1; gbc.gridy = 2; gbc.weightx = 1.0;
         cbMetodeBayar = new JComboBox<>(new String[]{"Cash", "Transfer"});
@@ -173,6 +178,7 @@ public class FormTransaksi extends JFrame {
         actionPanel.add(btnSimpanTransaksi);
         actionPanel.add(btnBatal);
         bottomPanel.add(actionPanel, BorderLayout.EAST);
+        
 
         mainPanel.add(bottomPanel, BorderLayout.SOUTH);
         add(mainPanel);
@@ -249,14 +255,14 @@ public class FormTransaksi extends JFrame {
             ResultSet rsU = st.executeQuery("SELECT id_user, nama FROM user");
             boolean hasUser = false;
             while (rsU.next()) {
-                cbUser.addItem(new UserItem(rsU.getInt(1), rsU.getString(2)));
+                
                 hasUser = true;
             }
             rsU.close();
             
             if (!hasUser) {
                 st.executeUpdate("INSERT INTO user (username, password, nama) VALUES ('admin', 'admin', 'Super Admin')");
-                cbUser.addItem(new UserItem(1, "Super Admin"));
+              
             }
 
             loadKambingTersedia();
@@ -354,8 +360,16 @@ public class FormTransaksi extends JFrame {
         String finalStatusBayar = (uangDibayar == totalBelanja) ? "Lunas" : "DP";
 
         PelangganItem pelanggan = (PelangganItem) cbPelanggan.getSelectedItem();
-        UserItem user = (UserItem) cbUser.getSelectedItem();
-        if (pelanggan == null || user == null) return;
+           int idKasirSession = UserSession.getLoginId();
+   
+        if (pelanggan == null) {
+            JOptionPane.showMessageDialog(this, "Pilih pelanggan terlebih dahulu!");
+            return; 
+        }
+        if (idKasirSession == 0) {
+            JOptionPane.showMessageDialog(this, "Sesi login tidak valid! Silakan relogin.");
+            return;
+        }
 
         String invoice = txtInvoice.getText();
         java.util.Date tgl = (java.util.Date) spinnerTanggal.getValue();
@@ -371,7 +385,7 @@ public class FormTransaksi extends JFrame {
             String sqlTransaksi = "INSERT INTO transaksi (id_pelanggan, id_user, nomor_invoice, tanggal_transaksi, status_pembayaran, metode_pembayaran, uang_dibayar) VALUES (?, ?, ?, ?, ?, ?, ?)";
             PreparedStatement pstMaster = conn.prepareStatement(sqlTransaksi, Statement.RETURN_GENERATED_KEYS);
             pstMaster.setInt(1, pelanggan.getId());
-            pstMaster.setInt(2, user.getId());
+            pstMaster.setInt(2, idKasirSession);
             pstMaster.setString(3, invoice);
             pstMaster.setTimestamp(4, new java.sql.Timestamp(tgl.getTime()));
             pstMaster.setString(5, finalStatusBayar); // Memakai status hasil validasi akhir
