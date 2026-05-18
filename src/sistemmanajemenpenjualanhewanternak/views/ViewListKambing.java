@@ -24,6 +24,11 @@ public class ViewListKambing extends javax.swing.JFrame {
         setTableModel();
         styleTable();
         
+        styleButton(btnTambah, new Color(67,160,71));
+        styleButton(btnEdit, new Color(30,136,229));
+        styleButton(btnHapus, new Color(229,57,53));
+        styleButton(btnRefresh, new Color(102,204,255));
+        
         cbFilterStatus.removeAllItems();
         cbFilterStatus.addItem("Semua Status");
         cbFilterStatus.addItem("Tersedia");
@@ -130,7 +135,35 @@ public class ViewListKambing extends javax.swing.JFrame {
         tblKambing.setShowGrid(true);
     }   
     
+    private void styleButton(
+            javax.swing.JButton button,
+            Color color) {
+        
+        button.setBackground(color);
 
+        if (button == btnRefresh) {
+            button.setForeground(Color.BLACK);
+        } else {
+            button.setForeground(Color.WHITE);
+        }
+        
+        button.setOpaque(true);
+        button.setBorderPainted(false);
+        button.setFocusPainted(false);
+
+        String os =
+                System.getProperty("os.name").toLowerCase();
+
+        if (os.contains("mac")) {
+
+            button.setContentAreaFilled(false);
+    }
+
+        button.setCursor(
+                new java.awt.Cursor(
+                        java.awt.Cursor.HAND_CURSOR));
+    }
+    
     private void tampilData() {
 
         DefaultTableModel model =
@@ -604,7 +637,12 @@ public class ViewListKambing extends javax.swing.JFrame {
 
     private void btnRefreshActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRefreshActionPerformed
        
-        txtCari.setText("");
+        txtCari.setText(
+                "Cari kode kambing/Supplier....");
+
+        txtCari.setForeground(
+                new Color(204,204,204));
+
         cbFilterStatus.setSelectedIndex(0);
 
         tampilData();
