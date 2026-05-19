@@ -38,8 +38,6 @@ public class ViewListKambing extends javax.swing.JFrame {
         
         tampilData();
         
-        btnEdit.setEnabled(false);
-        btnHapus.setEnabled(false);
     }
     
     private void setTableModel() {
@@ -147,17 +145,7 @@ public class ViewListKambing extends javax.swing.JFrame {
             button.setForeground(Color.WHITE);
         }
         
-        button.setOpaque(true);
-        button.setBorderPainted(false);
         button.setFocusPainted(false);
-
-        String os =
-                System.getProperty("os.name").toLowerCase();
-
-        if (os.contains("mac")) {
-
-            button.setContentAreaFilled(false);
-    }
 
         button.setCursor(
                 new java.awt.Cursor(
@@ -524,6 +512,7 @@ public class ViewListKambing extends javax.swing.JFrame {
         btnEdit.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         btnEdit.setForeground(new java.awt.Color(255, 255, 255));
         btnEdit.setText("Edit Data Terpilih");
+        btnEdit.setToolTipText("");
         btnEdit.addActionListener(this::btnEditActionPerformed);
 
         btnHapus.setBackground(new java.awt.Color(229, 57, 53));
@@ -604,7 +593,7 @@ public class ViewListKambing extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(472, 472, 472)
-                .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 146, Short.MAX_VALUE)
                 .addGap(16, 16, 16))
         );
         jPanel1Layout.setVerticalGroup(
@@ -655,9 +644,6 @@ public class ViewListKambing extends javax.swing.JFrame {
     private void tblKambingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblKambingMouseClicked
 
         int row = tblKambing.getSelectedRow();
-        
-        btnEdit.setEnabled(true);
-        btnHapus.setEnabled(true);
         
         lblKode.setText(tblKambing.getValueAt(row,1).toString());
         lblSupplier.setText(tblKambing.getValueAt(row,2).toString());
@@ -739,9 +725,6 @@ public class ViewListKambing extends javax.swing.JFrame {
                 );
 
                 tampilData();
-
-                btnEdit.setEnabled(false);
-                btnHapus.setEnabled(false);
 
             } catch (Exception e) {
 
