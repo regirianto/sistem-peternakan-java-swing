@@ -25,7 +25,7 @@ public static void main(String[] args) {
         // Membuka UI menggunakan thread yang aman untuk Swing
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new TambahDataForm().setVisible(true);
+             
 
             }
         });
