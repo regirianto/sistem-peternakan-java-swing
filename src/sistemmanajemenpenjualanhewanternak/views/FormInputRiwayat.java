@@ -29,9 +29,9 @@ public class FormInputRiwayat extends javax.swing.JFrame {
     public FormInputRiwayat() {
         initComponents();
         this.setLocationRelativeTo(null); // Opsional: Biar pas di-run formnya muncul di tengah layar
-        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         // Panggil method ini saat form pertama kali dibuka
         loadDataKambing();
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
     
     // Method ini wajib ada agar garis merah di form sebelah hilang!

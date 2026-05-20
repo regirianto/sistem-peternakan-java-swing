@@ -26,6 +26,7 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         setupTableSorter(); // Panggil method setup saat form dibuka
         loadFilterKambing(); // Panggil data dari database saat form dibuka
         loadDataTabel(); // PANGGIL DI SINI BIAR PAS DIBUKA LANGSUNG MUNCUL DATANYA
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
     
     // Method untuk menarik data riwayat kesehatan dari database ke JTable

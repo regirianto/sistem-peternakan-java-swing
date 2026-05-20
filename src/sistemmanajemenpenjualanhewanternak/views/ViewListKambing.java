@@ -20,6 +20,7 @@ public class ViewListKambing extends javax.swing.JFrame {
 
     public ViewListKambing() {
         initComponents();
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         
         setTableModel();
         styleTable();
