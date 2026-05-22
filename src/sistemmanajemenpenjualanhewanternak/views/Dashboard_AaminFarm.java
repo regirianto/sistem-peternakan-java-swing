@@ -534,6 +534,13 @@ public class Dashboard_AaminFarm extends javax.swing.JPanel {
 
     private void pn_manajemenuserMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_manajemenuserMouseClicked
         // TODO add your handling code here:
+        TambahUserForm user = new TambahUserForm();
+        
+        // 2. Posisikan window di tengah layar (opsional tapi disarankan)
+        user.setLocationRelativeTo(null);
+        
+        // 3. Tampilkan halaman ViewListKambing
+        user.setVisible(true);
     }//GEN-LAST:event_pn_manajemenuserMouseClicked
 
     
