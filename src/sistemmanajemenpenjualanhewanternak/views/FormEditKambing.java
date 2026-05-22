@@ -495,12 +495,10 @@ public class FormEditKambing extends javax.swing.JFrame {
                 "Data kambing berhasil diUpdate!"
             );
             
-            new ViewListKambing().setVisible(true);
 
             dispose();
 
-            resetForm();
-
+       
         } catch (Exception e) {
 
             javax.swing.JOptionPane.showMessageDialog(this, e);

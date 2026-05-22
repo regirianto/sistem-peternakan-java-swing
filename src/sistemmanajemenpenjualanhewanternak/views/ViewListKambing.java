@@ -618,6 +618,15 @@ public class ViewListKambing extends javax.swing.JFrame {
 
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
         FormInputKambing form = new FormInputKambing();
+        
+        form.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                // Refresh data di tabel (menggunakan filterData agar jika sedang mencari, pencariannya tidak hilang)
+                filterData(); 
+            }
+        });
+        
         form.setVisible(true);
     }//GEN-LAST:event_btnTambahActionPerformed
 
@@ -809,6 +818,14 @@ public class ViewListKambing extends javax.swing.JFrame {
                         status,
                         tanggal);
 
+        form.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                // Refresh data di tabel (menggunakan filterData agar jika sedang mencari, pencariannya tidak hilang)
+                filterData(); 
+            }
+        });
+        
         form.setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
 

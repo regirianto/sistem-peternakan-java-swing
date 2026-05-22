@@ -11,6 +11,7 @@ import java.sql.ResultSet;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import sistemmanajemenpenjualanhewanternak.Utils.Database; 
+import sistemmanajemenpenjualanhewanternak.Utils.UserSession;
 
 public class LoginForm extends JFrame {
 
@@ -166,10 +167,12 @@ public class LoginForm extends JFrame {
                 
                 try (ResultSet rs = stmt.executeQuery()) {
                     if (rs.next()) {
+                        int id = rs.getInt("id_user");
+                        String nama = rs.getString("nama");
                         // Login berhasil
                         javax.swing.JFrame frame = new javax.swing.JFrame("Dashboard Berkah Aamiin Farm");
                         Dashboard_AaminFarm panel = new Dashboard_AaminFarm();
-                    
+                        UserSession.setLogin(id, nama);
                         frame.add(panel);
                         frame.pack(); 
                         frame.setLocationRelativeTo(null);

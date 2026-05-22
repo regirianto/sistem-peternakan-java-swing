@@ -82,7 +82,9 @@ public class DaftarPelanggan extends JFrame {
         scroll.setBounds(30, 140, 820, 320);
 
         panel.add(scroll);
-
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null); 
+        setResizable(false);
         tampilData();
 
         // SEARCH

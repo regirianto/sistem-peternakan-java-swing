@@ -90,6 +90,10 @@ public class UpdatePelanggan extends JFrame {
         btnUpdate.setForeground(Color.WHITE);
 
         add(btnUpdate);
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null); 
+        setResizable(false);
 
         btnUpdate.addActionListener(e -> {
             updateData();

@@ -1,13 +1,5 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package sistemmanajemenpenjualanhewanternak.views;
 
-/**
- *
- * @author regi.suyono
- */
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
@@ -17,7 +9,6 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import sistemmanajemenpenjualanhewanternak.Utils.Database;
 
 public class ViewListTransaksi extends JFrame {
@@ -54,7 +45,6 @@ public class ViewListTransaksi extends JFrame {
         mainPanel.add(filterPanel, BorderLayout.NORTH);
 
         // --- PANEL TENGAH (TABEL UTAMA) ---
-        // Kolom Total Harga didapat dari hasil agregasi (SUM) detail transaksi
         String[] columnNames = {"ID", "No. Invoice", "Tanggal", "Pelanggan", "Kasir", "Status Bayar", "Metode", "Total Harga (Rp)", "Uang Di bayar"};
         tableModel = new DefaultTableModel(columnNames, 0) {
             @Override
@@ -68,15 +58,15 @@ public class ViewListTransaksi extends JFrame {
         tableTransaksi.setRowHeight(25);
         
         // Atur lebar kolom
-        tableTransaksi.getColumnModel().getColumn(0).setPreferredWidth(40);  // ID
-        tableTransaksi.getColumnModel().getColumn(1).setPreferredWidth(140); // No. Invoice
-        tableTransaksi.getColumnModel().getColumn(2).setPreferredWidth(130); // Tanggal
-        tableTransaksi.getColumnModel().getColumn(3).setPreferredWidth(120); // Pelanggan
-        tableTransaksi.getColumnModel().getColumn(4).setPreferredWidth(100); // Kasir
-        tableTransaksi.getColumnModel().getColumn(5).setPreferredWidth(80);  // Status Bayar
-        tableTransaksi.getColumnModel().getColumn(6).setPreferredWidth(70);  // Metode
-        tableTransaksi.getColumnModel().getColumn(7).setPreferredWidth(110); // Total Harga
-        tableTransaksi.getColumnModel().getColumn(8).setPreferredWidth(110); // Uang Dibayar
+        tableTransaksi.getColumnModel().getColumn(0).setPreferredWidth(40);
+        tableTransaksi.getColumnModel().getColumn(1).setPreferredWidth(140);
+        tableTransaksi.getColumnModel().getColumn(2).setPreferredWidth(130);
+        tableTransaksi.getColumnModel().getColumn(3).setPreferredWidth(120);
+        tableTransaksi.getColumnModel().getColumn(4).setPreferredWidth(100);
+        tableTransaksi.getColumnModel().getColumn(5).setPreferredWidth(80);
+        tableTransaksi.getColumnModel().getColumn(6).setPreferredWidth(70);
+        tableTransaksi.getColumnModel().getColumn(7).setPreferredWidth(110);
+        tableTransaksi.getColumnModel().getColumn(8).setPreferredWidth(110);
 
         JScrollPane scrollPane = new JScrollPane(tableTransaksi);
         mainPanel.add(scrollPane, BorderLayout.CENTER);
@@ -87,7 +77,7 @@ public class ViewListTransaksi extends JFrame {
         btnLihatDetail = new JButton("Lihat Detail Item Kambing");
         btnLunasi = new JButton("Lunasi Pembayaran");
         
-        buttonPanel.add(btnLunasi); // Masukkan ke panel
+        buttonPanel.add(btnLunasi); 
         buttonPanel.add(btnTambah);
         buttonPanel.add(btnLihatDetail);
         
@@ -95,23 +85,18 @@ public class ViewListTransaksi extends JFrame {
         add(mainPanel);
 
         // --- EVENT LISTENERS ---
-        
         btnLunasi.addActionListener(e -> actionLunasi());
-        
         btnCari.addActionListener(e -> loadData(txtCari.getText().trim()));
-        txtCari.addActionListener(e -> loadData(txtCari.getText().trim())); // Support Enter key
+        txtCari.addActionListener(e -> loadData(txtCari.getText().trim())); 
         
         btnReset.addActionListener(e -> {
             txtCari.setText("");
             loadData("");
         });
 
-        // Membuka Form Input Transaksi (Kasir)
         btnTambah.addActionListener(e -> {
             FormTransaksi formTransaksi = new FormTransaksi();
             formTransaksi.setVisible(true);
-            
-            // Auto refresh tabel jika jendela kasir ditutup
             formTransaksi.addWindowListener(new WindowAdapter() {
                 @Override
                 public void windowClosed(WindowEvent e) {
@@ -120,7 +105,6 @@ public class ViewListTransaksi extends JFrame {
             });
         });
 
-        // Melihat kambing apa saja yang dibeli di dalam invoice tersebut
         btnLihatDetail.addActionListener(e -> actionLihatDetail());
         btnCetakInvoice.addActionListener(e -> actionCetakInvoice());
 
@@ -128,30 +112,27 @@ public class ViewListTransaksi extends JFrame {
         loadData("");
     }
 
-    // Method untuk menarik data transaksi dari Database
-private void loadData(String keyword) {
+    private void loadData(String keyword) {
         tableModel.setRowCount(0); 
 
         try {
             Connection conn = Database.getKoneksi();
             if (conn == null) return;
 
-            // Query menggunakan JOIN ke tabel user, pelanggan, dan detail_transaksi
-            // Menggunakan SUM() untuk menghitung total belanja per nota
+            // PERBAIKAN: Spasi sebelum petik tutup di baris p.id dan penggantian u.id menjadi u.id_user
             String sql = "SELECT t.id_transaksi, t.nomor_invoice, t.tanggal_transaksi, "
-                       + "p.nama_pelanggan, u.nama AS nama_kasir, t.status_pembayaran, "
+                       + "p.nama, u.nama AS nama_kasir, t.status_pembayaran, "
                        + "t.metode_pembayaran, COALESCE(SUM(d.harga_jual_satuan), 0) AS total_harga, "
                        + "t.uang_dibayar "
                        + "FROM transaksi t "
-                       + "JOIN pelanggan p ON t.id_pelanggan = p.id_pelanggan "
-                       + "JOIN user u ON t.id_user = u.id_user "
+                       + "JOIN pelanggan p ON t.id_pelanggan = p.id " 
+                       + "JOIN user u ON t.id_user = u.id_user " 
                        + "LEFT JOIN detail_transaksi d ON t.id_transaksi = d.id_transaksi ";
             
             if (!keyword.isEmpty()) {
-                sql += "WHERE t.nomor_invoice LIKE ? OR p.nama_pelanggan LIKE ? ";
+                sql += "WHERE t.nomor_invoice LIKE ? OR p.nama LIKE ? ";
             }
             
-            // Wajib pakai GROUP BY karena kita menggunakan fungsi SUM()
             sql += "GROUP BY t.id_transaksi "
                  + "ORDER BY t.id_transaksi DESC";
 
@@ -163,11 +144,10 @@ private void loadData(String keyword) {
 
                 try (ResultSet rs = pst.executeQuery()) {
                     while (rs.next()) {
-                        // Tarik semua 9 data dari ResultSet
                         int id = rs.getInt("id_transaksi");
                         String invoice = rs.getString("nomor_invoice");
                         String tanggal = rs.getString("tanggal_transaksi");
-                        String pelanggan = rs.getString("nama_pelanggan");
+                        String pelanggan = rs.getString("nama");
                         String kasir = rs.getString("nama_kasir");
                         String status = rs.getString("status_pembayaran");
                         String metode = rs.getString("metode_pembayaran");
@@ -175,11 +155,9 @@ private void loadData(String keyword) {
                         double totalHarga = rs.getDouble("total_harga");
                         double uangDibayar = rs.getDouble("uang_dibayar");
                         
-                        // Format Uang ke Rupiah
                         String strTotal = String.format("Rp %,.0f", totalHarga);
                         String strUang = String.format("Rp %,.0f", uangDibayar);
 
-                        // Masukkan ke array sesuai urutan kolom yang baru (9 buah)
                         Object[] rowData = {id, invoice, tanggal, pelanggan, kasir, status, metode, strTotal, strUang};
                         tableModel.addRow(rowData);
                     }
@@ -191,7 +169,6 @@ private void loadData(String keyword) {
         }
     }
 
-    // Menampilkan detail kambing dari invoice yang dipilih menggunakan Popup JTable sederhana
     private void actionLihatDetail() {
         int selectedRow = tableTransaksi.getSelectedRow();
         if (selectedRow == -1) {
@@ -213,7 +190,6 @@ private void loadData(String keyword) {
                 pst.setInt(1, idTransaksi);
                 try (ResultSet rs = pst.executeQuery()) {
                     
-                    // Membuat String StringBuilder untuk mencetak Struk/Detail ke dalam Popup
                     StringBuilder detailMsg = new StringBuilder();
                     detailMsg.append("Detail Pembelian untuk Invoice: ").append(invoice).append("\n");
                     detailMsg.append("--------------------------------------------------\n");
@@ -232,10 +208,9 @@ private void loadData(String keyword) {
                     detailMsg.append("--------------------------------------------------\n");
                     detailMsg.append("Total Keseluruhan: Rp ").append(String.format("%,.0f", total));
 
-                    // Tampilkan di Text Area (read-only) agar mudah di-copy
                     JTextArea textArea = new JTextArea(detailMsg.toString());
                     textArea.setEditable(false);
-                    textArea.setFont(new Font("Monospaced", Font.PLAIN, 14)); // Font monospaced agar rata
+                    textArea.setFont(new Font("Monospaced", Font.PLAIN, 14));
                     
                     JOptionPane.showMessageDialog(this, new JScrollPane(textArea), "Detail Transaksi", JOptionPane.INFORMATION_MESSAGE);
                 }
@@ -245,7 +220,6 @@ private void loadData(String keyword) {
         }
     }
 
-    // Method untuk merubah status transaksi dari DP menjadi Lunas
     private void actionLunasi() {
         int selectedRow = tableTransaksi.getSelectedRow();
         if (selectedRow == -1) {
@@ -255,9 +229,8 @@ private void loadData(String keyword) {
 
         int idTransaksi = (int) tableModel.getValueAt(selectedRow, 0);
         String invoice = (String) tableModel.getValueAt(selectedRow, 1);
-        String statusSaatIni = (String) tableModel.getValueAt(selectedRow, 5); // Index 5 adalah kolom Status Bayar
+        String statusSaatIni = (String) tableModel.getValueAt(selectedRow, 5); 
 
-        // Validasi: Cek apakah transaksi sudah lunas atau batal
         if ("Lunas".equalsIgnoreCase(statusSaatIni)) {
             JOptionPane.showMessageDialog(this, "Transaksi ini sudah Lunas!", "Info", JOptionPane.INFORMATION_MESSAGE);
             return;
@@ -266,7 +239,6 @@ private void loadData(String keyword) {
             return;
         }
 
-        // Konfirmasi ke user
         int konfirmasi = JOptionPane.showConfirmDialog(this, 
                 "Pelanggan akan melunasi Invoice: " + invoice + ".\nSistem akan otomatis menyesuaikan nominal 'Uang Dibayar' menjadi penuh.\nLanjutkan?", 
                 "Konfirmasi Pelunasan", 
@@ -277,7 +249,6 @@ private void loadData(String keyword) {
                 Connection conn = Database.getKoneksi();
                 if (conn == null) return;
 
-                // --- LANGKAH 1: Cari total harga sebenarnya dari transaksi ini ---
                 double totalBelanja = 0;
                 String sqlTotal = "SELECT SUM(harga_jual_satuan) AS total FROM detail_transaksi WHERE id_transaksi = ?";
                 try (PreparedStatement pstTotal = conn.prepareStatement(sqlTotal)) {
@@ -289,18 +260,15 @@ private void loadData(String keyword) {
                     }
                 }
 
-                // --- LANGKAH 2: Update status Lunas DAN update uang_dibayar sekaligus ---
                 String sqlUpdate = "UPDATE transaksi SET status_pembayaran = 'Lunas', uang_dibayar = ? WHERE id_transaksi = ?";
-                
                 try (PreparedStatement pstUpdate = conn.prepareStatement(sqlUpdate)) {
-                    pstUpdate.setDouble(1, totalBelanja); // Mengubah uang dibayar jadi lunas 100%
+                    pstUpdate.setDouble(1, totalBelanja); 
                     pstUpdate.setInt(2, idTransaksi);
                     
                     int affectedRows = pstUpdate.executeUpdate();
                     
                     if (affectedRows > 0) {
                         JOptionPane.showMessageDialog(this, "Transaksi berhasil dilunasi!", "Sukses", JOptionPane.INFORMATION_MESSAGE);
-                        // Refresh tabel agar status terupdate menjadi "Lunas" dan nominal uang berubah di layar
                         loadData(txtCari.getText().trim()); 
                     }
                 }
@@ -319,31 +287,22 @@ private void loadData(String keyword) {
 
         int idTransaksi = (int) tableModel.getValueAt(selectedRow, 0);
 
-        // ==========================================================
-        // 1. DESAIN JENDELA LOADING (POP-UP)
-        // ==========================================================
-        JDialog loadingDialog = new JDialog(this, "Memproses Laporan", true); // 'true' membuatnya menjadi Modal (fokus terkunci)
+        JDialog loadingDialog = new JDialog(this, "Memproses Laporan", true); 
         loadingDialog.setLayout(new BorderLayout(10, 10));
         loadingDialog.setSize(300, 110);
         loadingDialog.setLocationRelativeTo(this);
-        loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); // Cegah user menyilang/menutup paksa saat loading
+        loadingDialog.setDefaultCloseOperation(JDialog.DO_NOTHING_ON_CLOSE); 
 
-        // Membuat Progress Bar yang jalan terus (Indeterminate)
         JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate(true); 
         progressBar.setString("Menghasilkan invoice...");
-        progressBar.setStringPainted(true); // Menampilkan teks di dalam loading bar
+        progressBar.setStringPainted(true); 
 
         loadingDialog.add(new JLabel("Mohon tunggu sebentar...", SwingConstants.CENTER), BorderLayout.NORTH);
         loadingDialog.add(progressBar, BorderLayout.CENTER);
 
-
-        // ==========================================================
-        // 2. PROSES BACKGROUND (AGAR APLIKASI TIDAK MACET)
-        // ==========================================================
         SwingWorker<net.sf.jasperreports.engine.JasperPrint, Void> worker = new SwingWorker<>() {
             
-            // a. Kode di dalam ini berjalan di Belakang Layar (Tugas Berat)
             @Override
             protected net.sf.jasperreports.engine.JasperPrint doInBackground() throws Exception {
                 Connection conn = Database.getKoneksi();
@@ -360,50 +319,40 @@ private void loadData(String keyword) {
                 }
 
                 try {
-                    // Compile & Fill (Ini yang bikin lama)
                     net.sf.jasperreports.engine.JasperReport jasperReport = net.sf.jasperreports.engine.JasperCompileManager.compileReport(reportStream);
                     java.util.HashMap<String, Object> parameters = new java.util.HashMap<>();
                     parameters.put("param_id_transaksi", idTransaksi); 
 
                     return net.sf.jasperreports.engine.JasperFillManager.fillReport(jasperReport, parameters, conn);
                 } finally {
-                    if (reportStream != null) reportStream.close(); // Tutup stream agar memory aman
+                    if (reportStream != null) reportStream.close(); 
                 }
             }
 
-            // b. Kode di dalam ini berjalan setelah tugas berat SELESAI
             @Override
             protected void done() {
-                loadingDialog.dispose(); // Wajib! Hilangkan pop-up loading dari layar
+                loadingDialog.dispose(); 
 
                 try {
-                    // Ambil hasil cetakan dari doInBackground
                     net.sf.jasperreports.engine.JasperPrint print = get();
 
-                    // Pengecekan jika datanya kosong
                     if (print.getPages().isEmpty()) {
                         JOptionPane.showMessageDialog(ViewListTransaksi.this, "Laporan berhasil dimuat tapi isinya KOSONG!", "Peringatan", JOptionPane.WARNING_MESSAGE);
                         return;
                     }
 
-                    // Tampilkan Laporan ke layar
                     net.sf.jasperreports.view.JasperViewer.viewReport(print, false); 
 
                 } catch (Exception ex) {
-                    // Ambil pesan error aslinya
                     String msg = ex.getMessage();
                     if (ex.getCause() != null) msg = ex.getCause().getMessage();
-                    
                     JOptionPane.showMessageDialog(ViewListTransaksi.this, "Gagal mencetak invoice:\n" + msg, "Error Laporan", JOptionPane.ERROR_MESSAGE);
                 }
             }
         };
 
-        // ==========================================================
-        // 3. EKSEKUSI
-        // ==========================================================
-        worker.execute(); // Jalankan pekerja background
-        loadingDialog.setVisible(true); // Kunci layar dengan pop-up loading
+        worker.execute(); 
+        loadingDialog.setVisible(true); 
     }
     
     public static void main(String[] args) {

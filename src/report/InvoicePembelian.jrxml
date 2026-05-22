@@ -10,7 +10,7 @@
             SELECT 
                 t.nomor_invoice, 
                 t.tanggal_transaksi, 
-                p.nama_pelanggan, 
+                p.nama as nama_pelanggan, 
                 p.alamat AS alamat_pelanggan,
                 u.nama AS nama_kasir,
                 k.kode_kambing, 
@@ -19,7 +19,7 @@
                 t.uang_dibayar,
                 t.status_pembayaran
             FROM transaksi t
-            JOIN pelanggan p ON t.id_pelanggan = p.id_pelanggan
+            JOIN pelanggan p ON t.id_pelanggan = p.id
             JOIN user u ON t.id_user = u.id_user
             JOIN detail_transaksi d ON t.id_transaksi = d.id_transaksi
             JOIN kambing k ON d.id_kambing = k.id_kambing
@@ -56,7 +56,7 @@
                 <textElement textAlignment="Center" verticalAlignment="Top">
                     <font size="10"/>
                 </textElement>
-                <text><![CDATA[Peternakan Sistem Informasi Terpadu - Jl. Teknologi No. 99, Jakarta]]></text>
+                <text><![CDATA[Peternakan BERKAH AAMIIN FARM]]></text>
             </staticText>
             <line>
                 <reportElement x="0" y="55" width="555" height="1"/>

@@ -1,6 +1,8 @@
 
 package sistemmanajemenpenjualanhewanternak.views;
 
+import sistemmanajemenpenjualanhewanternak.Utils.UserSession;
+
 
 
 /*
@@ -483,7 +485,16 @@ public class Dashboard_AaminFarm extends javax.swing.JPanel {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
+        LoginForm login = new LoginForm();
+        login.setVisible(true);
+        UserSession.logout();
+        // 2. Cari window (JFrame) yang menampung panel dashboard ini, lalu tutup
+        java.awt.Window window = javax.swing.SwingUtilities.getWindowAncestor(this);
+        if (window != null) {
+            window.dispose();
+        }
+        
+       
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void pn_datakambingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_datakambingMouseClicked
@@ -500,7 +511,13 @@ public class Dashboard_AaminFarm extends javax.swing.JPanel {
     }//GEN-LAST:event_pn_datakambingMouseClicked
 
     private void pn_menusupplierMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_menusupplierMouseClicked
-        // TODO add your handling code here:
+   ViewListSupplier suppliers = new ViewListSupplier();
+        
+        // 2. Posisikan window di tengah layar (opsional tapi disarankan)
+        suppliers.setLocationRelativeTo(null);
+        
+        // 3. Tampilkan halaman ViewListKambing
+        suppliers.setVisible(true);
     }//GEN-LAST:event_pn_menusupplierMouseClicked
 
     private void pn_datapelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_datapelangganMouseClicked
@@ -516,7 +533,13 @@ public class Dashboard_AaminFarm extends javax.swing.JPanel {
     }//GEN-LAST:event_pn_datapelangganMouseClicked
 
     private void pn_datatransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_datatransaksiMouseClicked
-          
+        ViewListTransaksi trx = new ViewListTransaksi();
+        
+        // 2. Posisikan window di tengah layar (opsional tapi disarankan)
+        trx.setLocationRelativeTo(null);
+        
+        // 3. Tampilkan halaman ViewListKambing
+        trx.setVisible(true);
     }//GEN-LAST:event_pn_datatransaksiMouseClicked
 
     private void pn_riwayatkesehatanMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_riwayatkesehatanMouseClicked

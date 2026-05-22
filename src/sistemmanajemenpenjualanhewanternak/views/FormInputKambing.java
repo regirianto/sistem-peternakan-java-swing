@@ -483,11 +483,7 @@ public class FormInputKambing extends javax.swing.JFrame {
                     "Data kambing berhasil disimpan!"
             );
             
-            new ViewListKambing().setVisible(true);
-
             dispose();
-
-            resetForm();
 
         } catch (Exception e) {
             javax.swing.JOptionPane.showMessageDialog(this, e);

@@ -253,7 +253,7 @@ public class FormTransaksi extends JFrame {
         Connection conn = Database.getKoneksi();
         if (conn == null) return;
         try (Statement st = conn.createStatement()) {
-            ResultSet rsP = st.executeQuery("SELECT id_pelanggan, nama_pelanggan FROM pelanggan");
+            ResultSet rsP = st.executeQuery("SELECT id, nama FROM pelanggan");
             while (rsP.next()) cbPelanggan.addItem(new PelangganItem(rsP.getInt(1), rsP.getString(2)));
             rsP.close();
 

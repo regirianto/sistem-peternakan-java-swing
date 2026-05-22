@@ -79,6 +79,10 @@ public class TambahPelanggan extends JFrame {
         btnSimpan.setForeground(Color.WHITE);
 
         add(btnSimpan);
+        
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null); 
+        setResizable(false);
 
         btnSimpan.addActionListener(e -> {
             simpanData();
