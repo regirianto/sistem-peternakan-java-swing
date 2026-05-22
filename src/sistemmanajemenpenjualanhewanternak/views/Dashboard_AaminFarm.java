@@ -505,6 +505,14 @@ public class Dashboard_AaminFarm extends javax.swing.JPanel {
 
     private void pn_datapelangganMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_datapelangganMouseClicked
         // TODO add your handling code here:
+                // TODO add your handling code here:
+        DaftarPelanggan listCustomers = new DaftarPelanggan();
+        
+        // 2. Posisikan window di tengah layar (opsional tapi disarankan)
+        listCustomers.setLocationRelativeTo(null);
+        
+        // 3. Tampilkan halaman ViewListKambing
+        listCustomers.setVisible(true);
     }//GEN-LAST:event_pn_datapelangganMouseClicked
 
     private void pn_datatransaksiMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pn_datatransaksiMouseClicked
