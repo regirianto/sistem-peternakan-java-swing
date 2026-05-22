@@ -4,8 +4,10 @@
  */
 package sistemmanajemenpenjualanhewanternak;
 
+import javax.swing.SwingUtilities;
 import sistemmanajemenpenjualanhewanternak.Utils.Database;
 import sistemmanajemenpenjualanhewanternak.views.Dashboard_AaminFarm;
+import sistemmanajemenpenjualanhewanternak.views.LoginForm;
 
 
 /**
@@ -25,21 +27,7 @@ public static void main(String[] args) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 
-            javax.swing.JFrame frame = new javax.swing.JFrame("Dashboard Berkah Aamiin Farm");
-            Dashboard_AaminFarm panel = new Dashboard_AaminFarm();
-            
-            // 3. Masukkan panel ke dalam frame
-            frame.add(panel);
-            
-            // 4. Sesuaikan ukuran frame (bisa pakai pack() atau setSize manual)
-            frame.pack(); 
-            // frame.setSize(1280, 720); // Gunakan ini jika pack() dirasa kurang pas
-            
-            // 5. Posisikan window di tengah layar
-            frame.setLocationRelativeTo(null);
-            
-            // 6. Tampilkan ke layar
-            frame.setVisible(true);
+                SwingUtilities.invokeLater(() -> new LoginForm().setVisible(true));
 
             }
         });

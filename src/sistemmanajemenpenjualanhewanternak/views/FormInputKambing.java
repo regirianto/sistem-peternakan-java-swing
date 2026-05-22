@@ -18,6 +18,8 @@ public class FormInputKambing extends javax.swing.JFrame {
 
         loadSupplier();
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null); 
+        setResizable(false);
     }
     
     private void loadSupplier() {

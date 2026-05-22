@@ -29,6 +29,8 @@ public class FormEditKambing extends javax.swing.JFrame {
         cbStatus.addItem("Sakit");
         cbStatus.addItem("Mati");
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null); 
+        setResizable(false);
     }
         
     public FormEditKambing(
@@ -70,6 +72,9 @@ public class FormEditKambing extends javax.swing.JFrame {
         cbStatus.setSelectedItem(status);
 
         dcTanggalMasuk.setDate(tanggal);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setLocationRelativeTo(null); 
+        setResizable(false);
     }
 
     private void loadSupplier() {
