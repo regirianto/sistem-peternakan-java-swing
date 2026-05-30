@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
+              name="LaporanKesehatan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+    
+    <parameter name="param_tgl_awal" class="java.util.Date"/>
+    <parameter name="param_tgl_akhir" class="java.util.Date"/>
+    <parameter name="param_kode_kambing" class="java.lang.String"/>
+    
+    <queryString>
+        <![CDATA[
+            SELECT 
+                r.tanggal_pemeriksaan, 
+                k.kode_kambing, 
+                r.keterangan, 
+                r.berat_saat_ini
+            FROM riwayat_kesehatan r
+            JOIN kambing k ON r.id_kambing = k.id_kambing
+            WHERE DATE(r.tanggal_pemeriksaan) >= DATE($P{param_tgl_awal}) 
+              AND DATE(r.tanggal_pemeriksaan) <= DATE($P{param_tgl_akhir})
+              AND ($P{param_kode_kambing} = 'Semua' OR k.kode_kambing = $P{param_kode_kambing})
+            ORDER BY r.tanggal_pemeriksaan ASC
+        ]]>
+    </queryString>
+    
+    <field name="tanggal_pemeriksaan" class="java.sql.Timestamp"/>
+    <field name="kode_kambing" class="java.lang.String"/>
+    <field name="keterangan" class="java.lang.String"/>
+    <field name="berat_saat_ini" class="java.lang.String"/>
+
+    <title>
+        <band height="65">
+            <staticText>
+                <reportElement x="0" y="0" width="555" height="30"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="16" isBold="true"/>
+                </textElement>
+                <text><![CDATA[LAPORAN RIWAYAT KESEHATAN KAMBING]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="30" width="555" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="12"/>
+                </textElement>
+                <text><![CDATA[Peternakan BERKAH AAMIIN FARM]]></text>
+            </staticText>
+            <line>
+                <reportElement x="0" y="55" width="555" height="1"/>
+            </line>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="40">
+            <staticText>
+                <reportElement x="0" y="5" width="60" height="15"/>
+                <textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Periode :]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="60" y="5" width="70" height="15"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$P{param_tgl_awal}]]></textFieldExpression>
+            </textField>
+            <staticText>
+                <reportElement x="130" y="5" width="20" height="15"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <text><![CDATA[s/d]]></text>
+            </staticText>
+            <textField pattern="dd/MM/yyyy">
+                <reportElement x="150" y="5" width="80" height="15"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$P{param_tgl_akhir}]]></textFieldExpression>
+            </textField>
+            
+            <staticText>
+                <reportElement x="0" y="20" width="60" height="15"/>
+                <textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Filter :]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="60" y="20" width="200" height="15"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$P{param_kode_kambing}.equals("Semua") ? "Semua Kambing" : "Kambing Kode " + $P{param_kode_kambing}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="25">
+            <rectangle>
+                <reportElement x="0" y="0" width="555" height="25" backcolor="#EBEBEB"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="5" y="0" width="30" height="25"/>
+                <textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[No.]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="35" y="0" width="100" height="25"/>
+                <textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Tgl Pemeriksaan]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="135" y="0" width="100" height="25"/>
+                <textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Kode Kambing]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="235" y="0" width="235" height="25"/>
+                <textElement verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Keterangan / Diagnosa]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="470" y="0" width="80" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"><font isBold="true"/></textElement>
+                <text><![CDATA[Berat]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="30">
+            <textField>
+                <reportElement x="5" y="0" width="30" height="25"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy HH:mm">
+                <reportElement x="35" y="0" width="100" height="25"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{tanggal_pemeriksaan}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="135" y="0" width="100" height="25"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{kode_kambing}]]></textFieldExpression>
+            </textField>
+            <textField isStretchWithOverflow="true">
+                <reportElement x="235" y="0" width="235" height="25"/>
+                <textElement verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{keterangan}]]></textFieldExpression>
+            </textField>
+            <textField>
+                <reportElement x="470" y="0" width="80" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle"/>
+                <textFieldExpression><![CDATA[$F{berat_saat_ini}]]></textFieldExpression>
+            </textField>
+            <line>
+                <reportElement positionType="Float" x="0" y="29" width="555" height="1"/>
+                <graphicElement><pen lineWidth="0.25" lineStyle="Dotted"/></graphicElement>
+            </line>
+        </band>
+    </detail>
+</jasperReport>

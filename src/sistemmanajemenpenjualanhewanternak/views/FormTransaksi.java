@@ -3,6 +3,7 @@ package sistemmanajemenpenjualanhewanternak.views;
 import javax.swing.*;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
@@ -137,6 +138,22 @@ public class FormTransaksi extends JFrame {
             @Override public boolean isCellEditable(int row, int column) { return false; }
         };
         tableKeranjang = new JTable(tableModel);
+
+        // --- FITUR BARU: RENDERER FORMAT RUPIAH UNTUK KOLOM HARGA JUAL (INDEX 2) ---
+        DefaultTableCellRenderer rupiahRenderer = new DefaultTableCellRenderer() {
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                if (value instanceof Double) {
+                    value = String.format("Rp %,.0f", (Double) value);
+                }
+                Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                ((JLabel) c).setHorizontalAlignment(SwingConstants.RIGHT); // Rata kanan agar angka rapi
+                return c;
+            }
+        };
+        tableKeranjang.getColumnModel().getColumn(2).setCellRenderer(rupiahRenderer);
+        // -------------------------------------------------------------------------
+
         centerPanel.add(new JScrollPane(tableKeranjang), BorderLayout.CENTER);
 
         mainPanel.add(centerPanel, BorderLayout.CENTER);
@@ -195,6 +212,13 @@ public class FormTransaksi extends JFrame {
     private void hitungTotal() {
         double total = getTotalBelanja();
         lblTotalHarga.setText(String.format("Total: Rp %,.0f", total));
+        
+        // --- FITUR BARU: AUTO KALKULASI 20% DEFAULT DP ---
+        // Jika total ada, hitung 20%, format tanpa desimal/koma agar valid saat dibaca parseDouble nanti
+        double dpOtomatis = total * 0.20;
+        txtUangDibayar.setText(String.format("%.0f", dpOtomatis)); 
+        // -------------------------------------------------
+
         cekStatusPembayaranOtomatis();
     }
 

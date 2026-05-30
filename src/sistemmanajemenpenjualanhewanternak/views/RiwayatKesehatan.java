@@ -23,10 +23,13 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
     
     public RiwayatKesehatan() {
         initComponents();
+        this.setSize(1050, 800);
+        this.setLocationRelativeTo(null);
         setupTableSorter(); // Panggil method setup saat form dibuka
         loadFilterKambing(); // Panggil data dari database saat form dibuka
         loadDataTabel(); // PANGGIL DI SINI BIAR PAS DIBUKA LANGSUNG MUNCUL DATANYA
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
     }
     
     // Method untuk menarik data riwayat kesehatan dari database ke JTable
@@ -207,6 +210,7 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btnTambah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         KodeKambing = new javax.swing.JComboBox<>();
@@ -257,7 +261,7 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel2)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(100, Short.MAX_VALUE))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -285,27 +289,39 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Cetak Laporan");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 911, Short.MAX_VALUE)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHapus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnTambah))
+                .addComponent(btnTambah)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jScrollPane1)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                    .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 0));
@@ -362,7 +378,7 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCari, javax.swing.GroupLayout.DEFAULT_SIZE, 39, Short.MAX_VALUE)
+                            .addComponent(btnCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jCariKambing)))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
@@ -379,7 +395,7 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
@@ -486,6 +502,117 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_tabelKambingMouseClicked
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+// Membuat desain panel input parameter Laporan Kesehatan
+        javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(3, 2, 10, 10));
+
+        panel.add(new javax.swing.JLabel("Dari Tanggal:"));
+        javax.swing.JSpinner spinnerTglAwal = new javax.swing.JSpinner(new javax.swing.SpinnerDateModel());
+        spinnerTglAwal.setEditor(new javax.swing.JSpinner.DateEditor(spinnerTglAwal, "yyyy-MM-dd"));
+        panel.add(spinnerTglAwal);
+
+        panel.add(new javax.swing.JLabel("Sampai Tanggal:"));
+        javax.swing.JSpinner spinnerTglAkhir = new javax.swing.JSpinner(new javax.swing.SpinnerDateModel());
+        spinnerTglAkhir.setEditor(new javax.swing.JSpinner.DateEditor(spinnerTglAkhir, "yyyy-MM-dd"));
+        panel.add(spinnerTglAkhir);
+
+        panel.add(new javax.swing.JLabel("Filter Kambing:"));
+        javax.swing.JComboBox<String> cbKodeKambing = new javax.swing.JComboBox<>();
+        cbKodeKambing.addItem("Semua");
+        
+        // Ambil daftar kode kambing langsung dari database untuk dimasukkan ke Combobox
+        try {
+            Connection conn = Database.getKoneksi();
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery("SELECT kode_kambing FROM kambing");
+            while (rs.next()) {
+                cbKodeKambing.addItem(rs.getString("kode_kambing"));
+            }
+            rs.close(); stmt.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        panel.add(cbKodeKambing);
+
+        // Tampilkan Popup Dialog
+        int result = javax.swing.JOptionPane.showConfirmDialog(this, panel, "Cetak Rekam Medis Kambing", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+
+        if (result == javax.swing.JOptionPane.OK_OPTION) {
+            java.util.Date tglAwal = (java.util.Date) spinnerTglAwal.getValue();
+            java.util.Date tglAkhir = (java.util.Date) spinnerTglAkhir.getValue();
+            String kodeTerpilih = cbKodeKambing.getSelectedItem().toString();
+
+            if (tglAkhir.before(tglAwal)) {
+                javax.swing.JOptionPane.showMessageDialog(this, "Tanggal akhir tidak boleh lebih awal!", "Error Validasi", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // ==========================================================
+            // PROSES CETAK JASPER
+            // ==========================================================
+            javax.swing.JDialog loadingDialog = new javax.swing.JDialog(this, "Memproses Laporan", true);
+            loadingDialog.setLayout(new java.awt.BorderLayout(10, 10));
+            loadingDialog.setSize(300, 110);
+            loadingDialog.setLocationRelativeTo(this);
+            loadingDialog.setDefaultCloseOperation(javax.swing.JDialog.DO_NOTHING_ON_CLOSE);
+
+            javax.swing.JProgressBar progressBar = new javax.swing.JProgressBar();
+            progressBar.setIndeterminate(true);
+            progressBar.setString("Menarik riwayat kesehatan...");
+            progressBar.setStringPainted(true);
+            loadingDialog.add(new javax.swing.JLabel("Mohon tunggu sebentar...", javax.swing.SwingConstants.CENTER), java.awt.BorderLayout.NORTH);
+            loadingDialog.add(progressBar, java.awt.BorderLayout.CENTER);
+
+            javax.swing.SwingWorker<net.sf.jasperreports.engine.JasperPrint, Void> worker = new javax.swing.SwingWorker<>() {
+                @Override
+                protected net.sf.jasperreports.engine.JasperPrint doInBackground() throws Exception {
+                    Connection conn = Database.getKoneksi();
+                    if (conn == null) throw new Exception("Koneksi database gagal!");
+
+                    java.io.InputStream reportStream = getClass().getResourceAsStream("/report/LaporanKesehatan.jrxml");
+                    if (reportStream == null) {
+                        java.io.File fileReport = new java.io.File("src/report/LaporanKesehatan.jrxml");
+                        if (fileReport.exists()) reportStream = new java.io.FileInputStream(fileReport);
+                    }
+                    if (reportStream == null) throw new Exception("File template 'LaporanKesehatan.jrxml' tidak ditemukan!");
+
+                    try {
+                        net.sf.jasperreports.engine.JasperReport jasperReport = net.sf.jasperreports.engine.JasperCompileManager.compileReport(reportStream);
+                        
+                        // Kirim ke-3 parameter ke JasperReports
+                        java.util.HashMap<String, Object> parameters = new java.util.HashMap<>();
+                        parameters.put("param_tgl_awal", tglAwal);
+                        parameters.put("param_tgl_akhir", tglAkhir);
+                        parameters.put("param_kode_kambing", kodeTerpilih);
+
+                        return net.sf.jasperreports.engine.JasperFillManager.fillReport(jasperReport, parameters, conn);
+                    } finally {
+                        if (reportStream != null) reportStream.close();
+                    }
+                }
+
+                @Override
+                protected void done() {
+                    loadingDialog.dispose();
+                    try {
+                        net.sf.jasperreports.engine.JasperPrint print = get();
+                        if (print.getPages().isEmpty()) {
+                            javax.swing.JOptionPane.showMessageDialog(RiwayatKesehatan.this, "Tidak ada rekam medis untuk filter kambing dan periode tersebut.", "Data Kosong", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                            return;
+                        }
+                        net.sf.jasperreports.view.JasperViewer.viewReport(print, false);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        javax.swing.JOptionPane.showMessageDialog(RiwayatKesehatan.this, "Gagal mencetak laporan:\n" + ex.getMessage(), "Error Laporan", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    }
+                }
+            };
+
+            worker.execute();
+            loadingDialog.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -526,6 +653,7 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
     private javax.swing.JButton btnCari;
     private javax.swing.JButton btnHapus;
     private javax.swing.JButton btnTambah;
+    private javax.swing.JButton jButton1;
     private javax.swing.JTextField jCariKambing;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
