@@ -3,27 +3,29 @@
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
               xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
               name="InvoicePembelian" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    <parameter name="param_id_transaksi" class="java.lang.Integer"/>
+    
+    <parameter name="param_id_pembayaran" class="java.lang.Integer"/>
     
     <queryString>
         <![CDATA[
             SELECT 
-                t.nomor_invoice, 
-                t.tanggal_transaksi, 
-                p.nama as nama_pelanggan, 
+                r.nomor_invoice, 
+                r.tanggal_bayar AS tanggal_transaksi, 
+                p.nama_pelanggan, 
                 p.alamat AS alamat_pelanggan,
                 u.nama AS nama_kasir,
                 k.kode_kambing, 
                 k.jenis_kelamin, 
                 d.harga_jual_satuan,
-                t.uang_dibayar,
-                t.status_pembayaran
-            FROM transaksi t
-            JOIN pelanggan p ON t.id_pelanggan = p.id
+                r.nominal_masuk AS uang_dibayar,
+                r.keterangan AS status_pembayaran
+            FROM riwayat_pembayaran r
+            JOIN transaksi t ON r.id_transaksi = t.id_transaksi
+            JOIN pelanggan p ON t.id_pelanggan = p.id_pelanggan
             JOIN user u ON t.id_user = u.id_user
             JOIN detail_transaksi d ON t.id_transaksi = d.id_transaksi
             JOIN kambing k ON d.id_kambing = k.id_kambing
-            WHERE t.id_transaksi = $P{param_id_transaksi}
+            WHERE r.id_pembayaran = $P{param_id_pembayaran}
         ]]>
     </queryString>
     
