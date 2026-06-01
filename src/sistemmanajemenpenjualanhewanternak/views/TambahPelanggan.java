@@ -97,7 +97,7 @@ public class TambahPelanggan extends JFrame {
 
             String sql =
                     "INSERT INTO pelanggan"
-                    + "(nama,kontak,alamat)"
+                    + "(nama_pelanggan,kontak,alamat)"
                     + "VALUES(?,?,?)";
 
             PreparedStatement p =

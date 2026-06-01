@@ -22,7 +22,12 @@ public class Dashboard_AaminFarm extends javax.swing.JPanel {
      */
     public Dashboard_AaminFarm() {
         initComponents();
+        String namaKasir = sistemmanajemenpenjualanhewanternak.Utils.UserSession.getLoginName();
         
+        if (namaKasir != null) {
+            
+            jLabel2.setText("©2026 BERKAH AAMIN FARM - LOGIN SEBAGAI : " + namaKasir);
+        }
     }
 
     /**

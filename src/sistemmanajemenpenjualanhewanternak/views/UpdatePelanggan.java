@@ -108,8 +108,8 @@ public class UpdatePelanggan extends JFrame {
 
             String sql =
                     "UPDATE pelanggan "
-                    + "SET nama=?, kontak=?, alamat=? "
-                    + "WHERE id=?";
+                    + "SET nama_pelanggan=?, kontak=?, alamat=? "
+                    + "WHERE id_pelanggan=?";
 
             PreparedStatement p =
                     c.prepareStatement(sql);

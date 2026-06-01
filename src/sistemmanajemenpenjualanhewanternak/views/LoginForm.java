@@ -169,10 +169,10 @@ public class LoginForm extends JFrame {
                     if (rs.next()) {
                         int id = rs.getInt("id_user");
                         String nama = rs.getString("nama");
+                        UserSession.setLogin(id, nama);
                         // Login berhasil
                         javax.swing.JFrame frame = new javax.swing.JFrame("Dashboard Berkah Aamiin Farm");
-                        Dashboard_AaminFarm panel = new Dashboard_AaminFarm();
-                        UserSession.setLogin(id, nama);
+                        Dashboard_AaminFarm panel = new Dashboard_AaminFarm();                        
                         frame.add(panel);
                         frame.pack(); 
                         frame.setLocationRelativeTo(null);

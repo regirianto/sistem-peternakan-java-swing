@@ -16,7 +16,7 @@ public class Database {
     private static Connection koneksi;
     
     // Ganti sesuai dengan database kampus kalian
-    private static final String URL = "jdbc:mysql://localhost:3306/sistem_peternakan2";
+    private static final String URL = "jdbc:mysql://localhost:3306/sistem_peternakan3";
     private static final String USER = "root";
     private static final String PASS = "P@ssw0rd"; 
 
@@ -48,8 +48,8 @@ public class Database {
         
         // 1. Tabel Master: pelanggan
         String sqlPelanggan = "CREATE TABLE IF NOT EXISTS pelanggan ("
-                + "id INT AUTO_INCREMENT PRIMARY KEY, "
-                + "nama VARCHAR(100) NOT NULL, "
+                + "id_pelanggan INT AUTO_INCREMENT PRIMARY KEY, "
+                + "nama_pelanggan VARCHAR(100) NOT NULL, "
                 + "kontak VARCHAR(20), "
                 + "alamat TEXT"
                 + ")";
@@ -97,7 +97,7 @@ public class Database {
                  + "status_pembayaran ENUM('Lunas', 'DP', 'Batal'), "
                  + "metode_pembayaran VARCHAR(50), "
                  + "uang_dibayar DOUBLE DEFAULT 0, " // <--- TAMBAHKAN INI UNTUK KOMPUTER BARU
-                 + "FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id), "
+                 + "FOREIGN KEY (id_pelanggan) REFERENCES pelanggan(id_pelanggan), "
                  + "FOREIGN KEY (id_user) REFERENCES user(id_user)"
                  + ")";
              stmt.executeUpdate(sqlTransaksi);
@@ -123,6 +123,17 @@ public class Database {
                 + "FOREIGN KEY (id_kambing) REFERENCES kambing(id_kambing) ON DELETE CASCADE"
                 + ")";
         stmt.execute(sqlRiwayatKesehatan);
+        
+        String sqlRiwayatPembayaran = "CREATE TABLE IF NOT EXISTS riwayat_pembayaran ("
+                    + "id_pembayaran INT AUTO_INCREMENT PRIMARY KEY, "
+                    + "id_transaksi INT, "
+                    + "nomor_invoice VARCHAR(50), "
+                    + "tanggal_bayar DATETIME DEFAULT CURRENT_TIMESTAMP, "
+                    + "nominal_masuk DOUBLE NOT NULL, "
+                    + "keterangan VARCHAR(100), "
+                    + "FOREIGN KEY (id_transaksi) REFERENCES transaksi(id_transaksi) ON DELETE CASCADE"
+                    + ")";
+            stmt.execute(sqlRiwayatPembayaran);
 
         System.out.println("Pengecekan dan setup tabel ERD Sistem Peternakan selesai (Aman).");
 
@@ -154,7 +165,7 @@ public class Database {
         ResultSet rsPelanggan = stmt.executeQuery("SELECT COUNT(*) AS total FROM pelanggan");
         rsPelanggan.next();
         if (rsPelanggan.getInt("total") == 0) {
-            String sqlPelanggan = "INSERT INTO pelanggan (nama, kontak, alamat) VALUES "
+            String sqlPelanggan = "INSERT INTO pelanggan (nama_pelanggan, kontak, alamat) VALUES "
                     + "('Bapak Budi (Aqiqah)', '081987654321', 'Perumahan Harapan Indah, Kota Bekasi'),"
                     + "('Warung Sate Tegal Pak Kumis', '087766554433', 'Jl. Kalimalang Raya, Jakarta Timur'),"
                     + "('Mas Yanto (Panitia Qurban)', '081344556677', 'Kec. Tambun Selatan, Kabupaten Bekasi')";

@@ -185,8 +185,8 @@ public class DaftarPelanggan extends JFrame {
             while (r.next()) {
 
                 model.addRow(new Object[]{
-                    r.getInt("id"),
-                    r.getString("nama"),
+                    r.getInt("id_pelanggan"),
+                    r.getString("nama_pelanggan"),
                     r.getString("kontak"),
                     r.getString("alamat")
                 });
@@ -211,7 +211,7 @@ public class DaftarPelanggan extends JFrame {
 
             String sql =
                     "SELECT * FROM pelanggan "
-                    + "WHERE nama LIKE ? "
+                    + "WHERE nama_pelanggan LIKE ? "
                     + "OR kontak LIKE ?";
 
             PreparedStatement p =
@@ -228,8 +228,8 @@ public class DaftarPelanggan extends JFrame {
             while (r.next()) {
 
                 model.addRow(new Object[]{
-                    r.getInt("id"),
-                    r.getString("nama"),
+                    r.getInt("id_pelanggan"),
+                    r.getString("nama_pelanggan"),
                     r.getString("kontak"),
                     r.getString("alamat")
                 });
