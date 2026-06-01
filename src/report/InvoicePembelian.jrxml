@@ -1,11 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" 
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-              xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" 
-              name="InvoicePembelian" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
-    
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="InvoicePembelian" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
     <parameter name="param_id_pembayaran" class="java.lang.Integer"/>
-    
+
     <queryString>
         <![CDATA[
             SELECT 
@@ -28,7 +26,7 @@
             WHERE r.id_pembayaran = $P{param_id_pembayaran}
         ]]>
     </queryString>
-    
+
     <field name="nomor_invoice" class="java.lang.String"/>
     <field name="tanggal_transaksi" class="java.sql.Timestamp"/>
     <field name="nama_pelanggan" class="java.lang.String"/>
@@ -39,7 +37,7 @@
     <field name="harga_jual_satuan" class="java.lang.Double"/>
     <field name="uang_dibayar" class="java.lang.Double"/>
     <field name="status_pembayaran" class="java.lang.String"/>
-    
+
     <variable name="TotalBelanja" class="java.lang.Double" calculation="Sum">
         <variableExpression><![CDATA[$F{harga_jual_satuan}]]></variableExpression>
     </variable>
@@ -80,7 +78,7 @@
                 <reportElement x="90" y="5" width="150" height="15"/>
                 <textFieldExpression><![CDATA[$F{nomor_invoice}]]></textFieldExpression>
             </textField>
-            
+
             <staticText>
                 <reportElement x="0" y="25" width="80" height="15"/>
                 <text><![CDATA[Tanggal]]></text>

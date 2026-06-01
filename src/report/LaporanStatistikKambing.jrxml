@@ -1,0 +1,340 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="LaporanStatistikKambing" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20">
+
+    <queryString>
+        <![CDATA[
+        SELECT 
+            kambing.*, 
+            supplier_kambing.nama_supplier,
+            
+            -- Statistik Card Box Atas
+            (SELECT COUNT(*) FROM kambing WHERE status = 'Tersedia') AS total_tersedia,
+            (SELECT COUNT(*) FROM kambing WHERE status = 'Terjual') AS total_terjual,
+            (SELECT COUNT(*) FROM kambing WHERE status = 'Sakit') AS total_sakit,
+            (SELECT COUNT(*) FROM kambing WHERE status = 'Mati') AS total_mati,
+            
+            -- Statistik Analisis Bulanan (Kambing Masuk & Terjual Berdasarkan Bulan data baris saat ini)
+            DATE_FORMAT(kambing.tanggal_masuk, '%M %Y') AS bulan_laporan,
+            (SELECT COUNT(*) FROM kambing k2 WHERE DATE_FORMAT(k2.tanggal_masuk, '%Y-%m') = DATE_FORMAT(kambing.tanggal_masuk, '%Y-%m')) AS masuk_bulan_ini,
+            (SELECT COUNT(*) FROM kambing k3 WHERE DATE_FORMAT(k3.tanggal_masuk, '%Y-%m') = DATE_FORMAT(kambing.tanggal_masuk, '%Y-%m') AND k3.status = 'Terjual') AS terjual_bulan_ini
+            
+        FROM kambing 
+        LEFT JOIN supplier_kambing ON kambing.id_supplier = supplier_kambing.id_supplier
+        ORDER BY kambing.tanggal_masuk DESC
+        ]]>
+    </queryString>
+
+    <field name="id_kambing" class="java.lang.Integer"/>
+    <field name="kode_kambing" class="java.lang.String"/>
+    <field name="nama_supplier" class="java.lang.String"/>
+    <field name="jenis_kelamin" class="java.lang.String"/>
+    <field name="berat_awal" class="java.lang.Double"/>
+    <field name="harga_modal" class="java.lang.Double"/>
+    <field name="status" class="java.lang.String"/>
+    <field name="tanggal_masuk" class="java.sql.Date"/>
+
+    <field name="total_tersedia" class="java.lang.Long"/>
+    <field name="total_terjual" class="java.lang.Long"/>
+    <field name="total_sakit" class="java.lang.Long"/>
+    <field name="total_mati" class="java.lang.Long"/>
+
+    <field name="bulan_laporan" class="java.lang.String"/>
+    <field name="masuk_bulan_ini" class="java.lang.Long"/>
+    <field name="terjual_bulan_ini" class="java.lang.Long"/>
+
+    <background>
+        <band splitType="Stretch"/>
+    </background>
+
+    <title>
+        <band height="150" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="10" width="555" height="30" forecolor="#0F6B2F"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="20" isBold="true"/>
+                </textElement>
+                <text><![CDATA[LAPORAN ANALISIS & STOK KAMBING]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="0" y="40" width="555" height="20" forecolor="#666666"/>
+                <textElement textAlignment="Center" verticalAlignment="Top">
+                    <font size="11" isItalic="true"/>
+                </textElement>
+                <text><![CDATA[Sistem Manajemen Penjualan Hewan Ternak — Rangkuman Bulanan]]></text>
+            </staticText>
+            <line>
+                <reportElement x="0" y="65" width="555" height="1" forecolor="#CCCCCC"/>
+                <graphicElement>
+                    <pen lineWidth="2.0" lineStyle="Double"/>
+                </graphicElement>
+            </line>
+
+            <rectangle>
+                <reportElement x="0" y="80" width="120" height="50" forecolor="#43A047" backcolor="#E8F5E9"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="0" y="85" width="120" height="15"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL TERSEDIA]]></text>
+            </staticText>
+            <textField evaluationTime="Report">
+                <reportElement x="0" y="100" width="120" height="25" forecolor="#43A047"/>
+                <textElement textAlignment="Center">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{total_tersedia} + " Ekor"]]></textFieldExpression>
+            </textField>
+
+            <rectangle>
+                <reportElement x="145" y="80" width="120" height="50" forecolor="#1E86E5" backcolor="#E3F2FD"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="145" y="85" width="120" height="15"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL TERJUAL]]></text>
+            </staticText>
+            <textField evaluationTime="Report">
+                <reportElement x="145" y="100" width="120" height="25" forecolor="#1E86E5"/>
+                <textElement textAlignment="Center">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{total_terjual} + " Ekor"]]></textFieldExpression>
+            </textField>
+
+            <rectangle>
+                <reportElement x="290" y="80" width="120" height="50" forecolor="#FB8C00" backcolor="#FFF3E0"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="290" y="85" width="120" height="15"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL SAKIT]]></text>
+            </staticText>
+            <textField evaluationTime="Report">
+                <reportElement x="290" y="100" width="120" height="25" forecolor="#FB8C00"/>
+                <textElement textAlignment="Center">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{total_sakit} + " Ekor"]]></textFieldExpression>
+            </textField>
+
+            <rectangle>
+                <reportElement x="435" y="80" width="120" height="50" forecolor="#E53935" backcolor="#FFEBEE"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="435" y="85" width="120" height="15"/>
+                <textElement textAlignment="Center">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[TOTAL MATI]]></text>
+            </staticText>
+            <textField evaluationTime="Report">
+                <reportElement x="435" y="100" width="120" height="25" forecolor="#E53935"/>
+                <textElement textAlignment="Center">
+                    <font size="14" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{total_mati} + " Ekor"]]></textFieldExpression>
+            </textField>
+        </band>
+    </title>
+
+    <pageHeader>
+        <band height="65" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="5" width="300" height="20"/>
+                <textElement>
+                    <font size="12" isBold="true" isUnderline="false"/>
+                </textElement>
+                <text><![CDATA[1. Tren Pasokan & Penjualan Bulan Ini:]]></text>
+            </staticText>
+
+            <rectangle>
+                <reportElement x="0" y="28" width="555" height="32" backcolor="#F5F5F5" forecolor="#DDDDDD"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="15" y="34" width="100" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <text><![CDATA[Bulan Laporan:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="115" y="34" width="120" height="20" forecolor="#006633"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="11" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{bulan_laporan}]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="250" y="34" width="110" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <text><![CDATA[Kambing Masuk (Stok):]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="360" y="34" width="45" height="20" forecolor="#3366FF"/>
+                <textElement verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{masuk_bulan_ini} + " Ekor"]]></textFieldExpression>
+            </textField>
+
+            <staticText>
+                <reportElement x="420" y="34" width="90" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <text><![CDATA[Kambing Terjual:]]></text>
+            </staticText>
+            <textField>
+                <reportElement x="510" y="34" width="40" height="20" forecolor="#CC0000"/>
+                <textElement verticalAlignment="Middle">
+                    <font isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{terjual_bulan_ini} + " Ekor"]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageHeader>
+
+    <columnHeader>
+        <band height="45" splitType="Stretch">
+            <staticText>
+                <reportElement x="0" y="0" width="300" height="18"/>
+                <textElement>
+                    <font size="12" isBold="true"/>
+                </textElement>
+                <text><![CDATA[2. Rincian Lembar Data Kambing (Sesuai Aplikasi):]]></text>
+            </staticText>
+
+            <rectangle>
+                <reportElement x="0" y="20" width="555" height="25" backcolor="#99FF99" forecolor="#CCCCCC"/>
+            </rectangle>
+            <staticText>
+                <reportElement x="10" y="20" width="70" height="25"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Kode]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="85" y="20" width="125" height="25"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Supplier]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="215" y="20" width="50" height="25"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Gender]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="270" y="20" width="45" height="25"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Berat]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="325" y="20" width="80" height="25"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Harga Modal]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="415" y="20" width="60" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Status]]></text>
+            </staticText>
+            <staticText>
+                <reportElement x="480" y="20" width="70" height="25"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <text><![CDATA[Tgl Masuk]]></text>
+            </staticText>
+        </band>
+    </columnHeader>
+
+    <detail>
+        <band height="22" splitType="Stretch">
+            <line>
+                <reportElement x="0" y="21" width="555" height="1" forecolor="#EEEEEE"/>
+            </line>
+            <textField isBlankWhenNull="true">
+                <reportElement x="10" y="0" width="70" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{kode_kambing}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="85" y="0" width="125" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{nama_supplier}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="215" y="0" width="50" height="20"/>
+                <textElement verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{jenis_kelamin}]]></textFieldExpression>
+            </textField>
+            <textField pattern="#,##0.0" isBlankWhenNull="true">
+                <reportElement x="270" y="0" width="45" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{berat_awal} + " Kg"]]></textFieldExpression>
+            </textField>
+            <textField pattern="Rp #,##0" isBlankWhenNull="true">
+                <reportElement x="325" y="0" width="80" height="20"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{harga_modal}]]></textFieldExpression>
+            </textField>
+            <textField isBlankWhenNull="true">
+                <reportElement x="415" y="0" width="60" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9" isBold="true"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{status}]]></textFieldExpression>
+            </textField>
+            <textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+                <reportElement x="480" y="0" width="70" height="20"/>
+                <textElement textAlignment="Center" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA[$F{tanggal_masuk}]]></textFieldExpression>
+            </textField>
+        </band>
+    </detail>
+
+    <pageFooter>
+        <band height="30" splitType="Stretch">
+            <textField>
+                <reportElement x="435" y="10" width="120" height="20" forecolor="#999999"/>
+                <textElement textAlignment="Right" verticalAlignment="Middle">
+                    <font size="9"/>
+                </textElement>
+                <textFieldExpression><![CDATA["Halaman " + $V{PAGE_NUMBER}]]></textFieldExpression>
+            </textField>
+        </band>
+    </pageFooter>
+</jasperReport>

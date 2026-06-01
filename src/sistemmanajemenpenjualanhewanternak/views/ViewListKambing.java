@@ -301,6 +301,7 @@ public class ViewListKambing extends javax.swing.JFrame {
         btnHapus = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         jSeparator2 = new javax.swing.JSeparator();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         btnTambah = new javax.swing.JButton();
 
@@ -522,12 +523,20 @@ public class ViewListKambing extends javax.swing.JFrame {
         btnHapus.setText("Hapus Data Terpilih");
         btnHapus.addActionListener(this::btnHapusActionPerformed);
 
+        jButton1.setBackground(new java.awt.Color(0, 153, 51));
+        jButton1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(255, 255, 255));
+        jButton1.setText("Buat Laporan");
+        jButton1.addActionListener(this::jButton1ActionPerformed);
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGap(34, 34, 34)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btnEdit)
                 .addGap(42, 42, 42)
                 .addComponent(btnHapus)
@@ -567,7 +576,8 @@ public class ViewListKambing extends javax.swing.JFrame {
                 .addGap(2, 2, 2)
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnEdit)
-                    .addComponent(btnHapus))
+                    .addComponent(btnHapus)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
@@ -594,7 +604,7 @@ public class ViewListKambing extends javax.swing.JFrame {
                 .addGap(15, 15, 15)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(472, 472, 472)
-                .addComponent(btnTambah, javax.swing.GroupLayout.PREFERRED_SIZE, 146, Short.MAX_VALUE)
+                .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, 146, Short.MAX_VALUE)
                 .addGap(16, 16, 16))
         );
         jPanel1Layout.setVerticalGroup(
@@ -829,6 +839,43 @@ public class ViewListKambing extends javax.swing.JFrame {
         form.setVisible(true);
     }//GEN-LAST:event_btnEditActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+         try {
+            // 1. Mengambil koneksi database terpusat dari Utils proyek Anda
+            java.sql.Connection conn = sistemmanajemenpenjualanhewanternak.Utils.Database.getKoneksi();
+            
+            // 2. Mengambil file template mentah .jrxml dari package report
+            java.io.InputStream reportSource = getClass().getResourceAsStream("/report/LaporanStatistikKambing.jrxml");
+            
+            if (reportSource == null) {
+                javax.swing.JOptionPane.showMessageDialog(this, 
+                        "Template (.jrxml) tidak ditemukan! Pastikan file LaporanStatistikKambing.jrxml sudah dibuat di dalam package 'report'.", 
+                        "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            
+            // 3. Compile otomatis file .jrxml di memori saat aplikasi berjalan (Runtime)
+            net.sf.jasperreports.engine.JasperReport jasperReport = net.sf.jasperreports.engine.JasperCompileManager.compileReport(reportSource);
+            
+            // 4. Memasukkan data dari database ke dalam template laporan
+            java.util.HashMap<String, Object> parameters = new java.util.HashMap<>();
+            net.sf.jasperreports.engine.JasperPrint jasperPrint = net.sf.jasperreports.engine.JasperFillManager.fillReport(jasperReport, parameters, conn);
+            
+            // 5. Menampilkan jendela Print Preview Jasper Viewer tanpa keluar dari aplikasi utama
+            net.sf.jasperreports.view.JasperViewer viewer = new net.sf.jasperreports.view.JasperViewer(jasperPrint, false);
+            viewer.setTitle("Laporan Analisis & Stok Kambing Bulanan");
+            viewer.setLocationRelativeTo(this); // Memosisikan jendela tepat di tengah layar
+            viewer.setVisible(true);
+            
+        } catch (Exception e) {
+            javax.swing.JOptionPane.showMessageDialog(this, "Gagal memproses laporan: " + e.getMessage(), 
+                    "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1ActionPerformed
+// ====================================================================
+   
 
     public static void main(String args[]) {
 
@@ -842,6 +889,7 @@ public class ViewListKambing extends javax.swing.JFrame {
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnTambah;
     private javax.swing.JComboBox<String> cbFilterStatus;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
