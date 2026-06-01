@@ -23,11 +23,12 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
     
     public RiwayatKesehatan() {
         initComponents();
-        this.setSize(1050, 800);
-        this.setLocationRelativeTo(null);
-        setupTableSorter(); // Panggil method setup saat form dibuka
-        loadFilterKambing(); // Panggil data dari database saat form dibuka
-        loadDataTabel(); // PANGGIL DI SINI BIAR PAS DIBUKA LANGSUNG MUNCUL DATANYA
+        pack(); // Biarkan ini yang mengatur ukuran form secara otomatis
+        this.setLocationRelativeTo(null); // Biar muncul di tengah layar
+        
+        setupTableSorter(); 
+        loadFilterKambing(); 
+        loadDataTabel(); 
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
     }
@@ -208,9 +209,9 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         tabelKambing = new javax.swing.JTable();
         jPanel3 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
         btnTambah = new javax.swing.JButton();
         btnHapus = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
         jPanel2 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         KodeKambing = new javax.swing.JComboBox<>();
@@ -218,6 +219,7 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         btnCari = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
 
         tabelKambing.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         tabelKambing.setFont(new java.awt.Font("Arial", 0, 14)); // NOI18N
@@ -254,21 +256,34 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Riwayat Kesehatan Kambing");
 
+        jButton1.setBackground(new java.awt.Color(204, 204, 0));
+        jButton1.setFont(new java.awt.Font("Agency FB", 1, 24)); // NOI18N
+        jButton1.setText("Cetak Laporan");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
         jPanel3.setLayout(jPanel3Layout);
         jPanel3Layout.setHorizontalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                 .addContainerGap()
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 129, Short.MAX_VALUE)
                 .addComponent(jLabel2)
-                .addContainerGap(100, Short.MAX_VALUE))
+                .addGap(29, 29, 29))
         );
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
                 .addGap(13, 13, 13)
-                .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGap(11, 11, 11))
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(8, 8, 8))
         );
 
         btnTambah.setBackground(new java.awt.Color(204, 204, 0));
@@ -289,39 +304,28 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Cetak Laporan");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(btnHapus)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnTambah)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 222, Short.MAX_VALUE)
-                .addContainerGap())
-            .addComponent(jScrollPane1)
+                .addComponent(btnTambah))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 564, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnHapus, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnTambah, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                .addGap(8, 8, 8))
+                    .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(9, 9, 9))
         );
 
         jPanel2.setBackground(new java.awt.Color(204, 204, 0));
@@ -373,19 +377,19 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(btnCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jCariKambing)))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addGap(14, 14, 14)
-                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(KodeKambing)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel2Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(btnCari, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jCariKambing))))
+                .addGap(9, 9, 9))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -395,62 +399,90 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void tabelKambingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelKambingMouseClicked
+        // Deteksi jika user melakukan DOUBLE CLICK (Klik 2x)
+        if (evt.getClickCount() == 2) {
+            int selectedRow = tabelKambing.getSelectedRow();
+
+            if (selectedRow != -1) {
+                // Konversi indeks baris (aman walau tabel sedang di-filter/search)
+                int modelRow = tabelKambing.convertRowIndexToModel(selectedRow);
+
+                // Ambil semua data string dari baris tabel yang di-double click
+                String idRiwayat = tabelKambing.getModel().getValueAt(modelRow, 0).toString();
+                String idKambing = tabelKambing.getModel().getValueAt(modelRow, 1).toString();
+                String tanggal = tabelKambing.getModel().getValueAt(modelRow, 2).toString();
+                String keterangan = tabelKambing.getModel().getValueAt(modelRow, 3).toString();
+                String berat = tabelKambing.getModel().getValueAt(modelRow, 4).toString();
+
+                // Instansiasi form input pop-up
+                FormInputRiwayat formInput = new FormInputRiwayat();
+                formInput.setFormUtama(this); // Berikan akses refresh tabel
+
+                // Picu Mode Edit dengan mengirimkan data lama
+                formInput.setEditMode(idRiwayat, idKambing, tanggal, keterangan, berat);
+
+                // Tampilkan form pop-upnya
+                formInput.setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_tabelKambingMouseClicked
+
     private void btnTambahActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTambahActionPerformed
-     FormInputRiwayat formInput = new FormInputRiwayat();
-     formInput.setFormUtama(this); // Mengirim referensi form ini ke form input
-     formInput.setVisible(true);
+        FormInputRiwayat formInput = new FormInputRiwayat();
+        formInput.setFormUtama(this); // Mengirim referensi form ini ke form input
+        formInput.setVisible(true);
     }//GEN-LAST:event_btnTambahActionPerformed
 
     private void btnHapusActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnHapusActionPerformed
         int selectedRow = tabelKambing.getSelectedRow();
-        
+
         // Cek apakah ada baris yang dipilih
         if (selectedRow != -1) {
             // Kasih pop-up konfirmasi biar aman (UX yang baik)
-            int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this, 
-                "Yakin ingin menghapus riwayat kesehatan ini secara permanen?", 
-                "Konfirmasi Hapus", 
+            int konfirmasi = javax.swing.JOptionPane.showConfirmDialog(this,
+                "Yakin ingin menghapus riwayat kesehatan ini secara permanen?",
+                "Konfirmasi Hapus",
                 javax.swing.JOptionPane.YES_NO_OPTION);
-            
+
             if (konfirmasi == javax.swing.JOptionPane.YES_OPTION) {
                 try {
                     // Konversi index baris (aman walau tabel sedang di-filter/search)
                     int modelRow = tabelKambing.convertRowIndexToModel(selectedRow);
-                    
+
                     // Ambil 'id_riwayat' dari tabel (ada di kolom paling kiri / index 0)
                     String idRiwayat = tabelKambing.getModel().getValueAt(modelRow, 0).toString();
-                    
+
                     // --- EKSEKUSI QUERY DELETE KE MYSQL ---
                     java.sql.Connection conn = sistemmanajemenpenjualanhewanternak.Utils.Database.getKoneksi();
                     String sql = "DELETE FROM riwayat_kesehatan WHERE id_riwayat = ?";
                     java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-                    
+
                     pst.setString(1, idRiwayat);
                     pst.executeUpdate(); // Hapus dari database
                     pst.close();
-                    
+
                     // Panggil method ini biar tabel otomatis narik data terbaru (yang udah bersih)
                     loadDataTabel();
-                    
+
                     javax.swing.JOptionPane.showMessageDialog(this, "Data berhasil dihapus dari database!");
-                    
+
                 } catch (Exception e) {
                     javax.swing.JOptionPane.showMessageDialog(this, "Gagal menghapus data: " + e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
                 }
@@ -461,10 +493,6 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnHapusActionPerformed
 
-    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
-        saringTabel();
-    }//GEN-LAST:event_btnCariActionPerformed
-
     private void KodeKambingActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_KodeKambingActionPerformed
         saringTabel();
     }//GEN-LAST:event_KodeKambingActionPerformed
@@ -473,37 +501,12 @@ public class RiwayatKesehatan extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jCariKambingActionPerformed
 
-    private void tabelKambingMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabelKambingMouseClicked
-        // Deteksi jika user melakukan DOUBLE CLICK (Klik 2x)
-        if (evt.getClickCount() == 2) {
-            int selectedRow = tabelKambing.getSelectedRow();
-            
-            if (selectedRow != -1) {
-                // Konversi indeks baris (aman walau tabel sedang di-filter/search)
-                int modelRow = tabelKambing.convertRowIndexToModel(selectedRow);
-                
-                // Ambil semua data string dari baris tabel yang di-double click
-                String idRiwayat = tabelKambing.getModel().getValueAt(modelRow, 0).toString();
-                String idKambing = tabelKambing.getModel().getValueAt(modelRow, 1).toString();
-                String tanggal = tabelKambing.getModel().getValueAt(modelRow, 2).toString();
-                String keterangan = tabelKambing.getModel().getValueAt(modelRow, 3).toString();
-                String berat = tabelKambing.getModel().getValueAt(modelRow, 4).toString();
-                
-                // Instansiasi form input pop-up
-                FormInputRiwayat formInput = new FormInputRiwayat();
-                formInput.setFormUtama(this); // Berikan akses refresh tabel
-                
-                // Picu Mode Edit dengan mengirimkan data lama
-                formInput.setEditMode(idRiwayat, idKambing, tanggal, keterangan, berat);
-                
-                // Tampilkan form pop-upnya
-                formInput.setVisible(true);
-            }
-        }
-    }//GEN-LAST:event_tabelKambingMouseClicked
+    private void btnCariActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCariActionPerformed
+        saringTabel();
+    }//GEN-LAST:event_btnCariActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-// Membuat desain panel input parameter Laporan Kesehatan
+  // Membuat desain panel input parameter Laporan Kesehatan
         javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(3, 2, 10, 10));
 
         panel.add(new javax.swing.JLabel("Dari Tanggal:"));
