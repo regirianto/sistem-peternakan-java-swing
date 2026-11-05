@@ -16,9 +16,9 @@ public class Database {
     private static Connection koneksi;
     
     // Ganti sesuai dengan database kampus kalian
-    private static final String URL = "jdbc:mysql://localhost:3306/sistem_peternakan3";
+    private static final String URL = "jdbc:mysql://localhost:3306/sistem_peternakan4";
     private static final String USER = "root";
-    private static final String PASS = "P@ssw0rd"; 
+    private static final String PASS = ""; 
 
     public static Connection getKoneksi() {
         if (koneksi == null) {
